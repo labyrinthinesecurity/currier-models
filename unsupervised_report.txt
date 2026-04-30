@@ -1,0 +1,154 @@
+
+============================================================================
+  BLIND CLUSTERING TEST
+  Can unsupervised methods recover the Currier A/B split?
+============================================================================
+
+  Parsing data/RF1b-e.txt ... done.
+  Building feature matrix ... done.
+  Feature matrix: 112 folios x 11 pairs
+  True labels: A=48, B=64
+  Missing values: 257/1232 (20.9%)
+
+============================================================================
+  SECTION 1: BLIND CLUSTERING (k=2)
+============================================================================
+
+  K-means (k=2) ... done. ARI=0.208
+  GMM (k=2) ... done. ARI=0.051
+  Hierarchical (Ward, k=2) ... done. ARI=0.142
+  Spectral (k=2) ... done. ARI=0.013
+
+  Method               ARI     NMI     Acc  Misclass  Silhouette
+  ------------------------------------------------------------
+  K-means            0.208   0.154  73.2%        30       0.170
+  GMM                0.051   0.171  62.5%        42       0.091
+  Hierarchical       0.142   0.158  69.6%        34       0.165
+  Spectral           0.013   0.040  58.9%        46       0.183
+
+  Misclassified folios (K-means):
+    Folio       Currier    Blind
+    ----------------------------
+    f1v               A        B
+    f3v               A        B
+    f6v               A        B
+    f7v               A        B
+    f8r               A        B
+    f10r              A        B
+    f18r              A        B
+    f19r              A        B
+    f20r              A        B
+    f22r              A        B
+    f23r              A        B
+    f24r              A        B
+    f31r              B        A
+    f31v              B        A
+    f34v              B        A
+    f35v              A        B
+    f37v              A        B
+    f39r              B        A
+    f41r              B        A
+    f42r              A        B
+    f44v              A        B
+    f45r              A        B
+    f46r              B        A
+    f48r              B        A
+    f54v              A        B
+    f56v              A        B
+    f57r              B        A
+    f58v              A        B
+    f66r              B        A
+    f66v              B        A
+
+============================================================================
+  SECTION 2: PERMUTATION TEST FOR ARI
+============================================================================
+
+  Running 1000 permutations ... done.
+  Observed ARI:     0.208
+  Null ARI mean:    -0.000
+  Null ARI std:     0.013
+  Null ARI 95th:    0.022
+  Null ARI max:     0.072
+  p-value:          0.0000
+  (p < 1.0e-03)
+
+============================================================================
+  SECTION 3: BOOTSTRAP STABILITY
+============================================================================
+
+  Running 500 bootstrap resamples ... done.
+  Bootstrap ARI: mean=0.165, std=0.139
+  Bootstrap ARI: median=0.146
+  Bootstrap ARI: 5th=-0.013, 95th=0.432
+  Fraction with ARI > 0.3: 17.8%
+  Fraction with ARI > 0.5: 2.6%
+
+============================================================================
+  SECTION 4: LEAVE-ONE-PAIR-OUT
+============================================================================
+
+  Full ARI (all pairs): 0.208
+
+  Pair dropped       ARI   Change
+  --------------------------------
+  d/l              0.145   -0.063
+  or/ar            0.145   -0.062
+  f/p              0.208   +0.000
+  k/t              0.224   +0.017
+  ch/sh            0.225   +0.017
+  s/r              0.225   +0.017
+  ol/al            0.225   +0.017
+  o/a              0.242   +0.035
+  y/dy             0.243   +0.035
+  e/ch             0.456   +0.248
+  e/ee             0.456   +0.248
+
+============================================================================
+  SECTION 5: SINGLE-PAIR CLUSTERING POWER
+============================================================================
+
+  Pair            ARI(median)  ARI(kmeans)
+  ----------------------------------------
+  e/ee                  0.119        0.160
+  or/ar                 0.053        0.159
+  ol/al                 0.073        0.106
+  e/ch                  0.003        0.106
+  d/l                   0.208        0.081
+  s/r                   0.014        0.079
+  ch/sh                 0.037        0.037
+  y/dy                  0.007        0.007
+  k/t                   0.003        0.007
+  o/a                  -0.009       -0.002
+  f/p                  -0.015       -0.013
+
+============================================================================
+  SECTION 6: PCA SUMMARY
+============================================================================
+
+  Explained variance ratio:
+    PC1: 0.227 (cumulative: 0.227)
+    PC2: 0.160 (cumulative: 0.387)
+    PC3: 0.135 (cumulative: 0.522)
+    PC4: 0.111 (cumulative: 0.633)
+    PC5: 0.091 (cumulative: 0.724)
+    PC6: 0.069 (cumulative: 0.793)
+    PC7: 0.059 (cumulative: 0.853)
+    PC8: 0.058 (cumulative: 0.911)
+    PC9: 0.034 (cumulative: 0.945)
+    PC10: 0.033 (cumulative: 0.977)
+
+  PC1 median-split ARI: 0.408
+
+  PC1 loadings (pair contributions):
+    e/ee            +0.469
+    s/r             +0.461
+    or/ar           +0.420
+    d/l             +0.405
+    ol/al           +0.363
+    e/ch            +0.281
+    o/a             -0.097
+    k/t             -0.049
+    y/dy            -0.048
+    f/p             -0.035
+    ch/sh           -0.027
