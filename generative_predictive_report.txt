@@ -1,0 +1,158 @@
+
+============================================================================
+  GENERATIVE MODEL + PREDICTIVE VALIDATION
+============================================================================
+
+  Parsing data/RF1b-e.txt ... done.
+  Folios: 185 (A=108, B=77)
+
+============================================================================
+  TEST 1: BETA-BINOMIAL MIXTURE MODEL
+============================================================================
+
+  Fitting mixtures k=1..6:
+    k=1 ... LL=-3946.5, BIC=8007.9
+    k=2 ... LL=-3826.1, BIC=7887.2, ARI=0.383
+    k=3 ... LL=-3780.1, BIC=7915.2, ARI=0.144
+    k=4 ... LL=-3753.2, BIC=7981.4, ARI=0.174
+    k=5 ... LL=-3728.9, BIC=8053.0, ARI=0.188
+    k=6 ... LL=-3711.7, BIC=8138.7, ARI=0.167
+
+    k         LL        BIC        AIC     ARI     Acc
+  ----------------------------------------------------
+    1    -3946.5     8007.9     7937.0      --      --
+    2    -3826.1     7887.2     7742.2   0.383   81.1%
+    3    -3780.1     7915.2     7696.3   0.144   74.1%
+    4    -3753.2     7981.4     7688.3   0.174   76.2%
+    5    -3728.9     8053.0     7685.8   0.188   78.4%
+    6    -3711.7     8138.7     7697.5   0.167   76.2%
+
+  Best k by BIC: 2
+
+  k=2 Regime profiles (mean ratio per pair):
+    Pair           Regime A   Regime B       Diff
+    --------------------------------------------
+    k/t               0.580      0.648      0.069
+    ch/sh             0.754      0.727      0.027
+    o/a               0.981      0.980      0.000
+    d/l               0.928      0.550      0.378
+    f/p               0.441      0.137      0.303
+    e/ch              0.252      0.242      0.009
+    e/ee              0.657      0.401      0.256
+    or/ar             0.628      0.346      0.282
+    ol/al             0.757      0.628      0.129
+    y/dy              0.814      0.776      0.037
+    s/r               0.789      0.524      0.265
+
+  Posterior confidence:
+    Folios with P(regime) > 0.9: 113/185 (61.1%)
+    Mean max posterior: 0.862
+
+  Misclassified folios (k=2 mixture):
+    Folio       Currier  Mixture  Confidence
+    ----------------------------------------
+    f23v              A        B       0.506
+    f11r              A        B       0.515
+    f29r              A        B       0.515
+    f94v              B        A       0.516
+    f116v             B        A       0.517
+    f43r              B        A       0.524
+    f45r              A        B       0.527
+    f40v              B        A       0.535
+    f20v              A        B       0.570
+    f41v              B        A       0.571
+    f14r              A        B       0.578
+    f11v              A        B       0.581
+    f2v               A        B       0.585
+    f16r              A        B       0.587
+    f29v              A        B       0.593
+    f31r              B        A       0.597
+    f28v              A        B       0.600
+    f47v              A        B       0.601
+    f42v              A        B       0.606
+    f32v              A        B       0.612
+    f30v              A        B       0.631
+    f17r              A        B       0.671
+    f46r              B        A       0.683
+    f30r              A        B       0.738
+    f54r              A        B       0.755
+    f5r               A        B       0.758
+    f93v              A        B       0.776
+    f8v               A        B       0.784
+    f24r              A        B       0.785
+    f4v               A        B       0.815
+    f57r              B        A       0.953
+    f31v              B        A       0.962
+    f66r              B        A       0.998
+    f66v              B        A       0.999
+    f48r              B        A       0.999
+
+============================================================================
+  TEST 2: PREDICTIVE VALIDATION
+============================================================================
+
+  2a. Cross-validated label prediction (20x 5-fold):
+    Accuracy: 89.2% ± 4.4%
+    ARI:      0.612 ± 0.137
+    Log-loss: 0.285 ± 0.102
+
+  2b. Spatial split prediction:
+         forward: acc=79.6%, ARI=0.340 (train=92, test=93)
+        backward: acc=41.3%, ARI=-0.066 (train=93, test=92)
+        even_odd: acc=91.3%, ARI=0.679 (train=93, test=92)
+
+    Forward split misclassified:
+      Folio        True   Pred     Conf
+      ----------------------------------
+      f48v            B      A    0.944
+      f50v            B      A    0.937
+      f51r            A      B    0.556
+      f51v            A      B    0.612
+      f79r            B      A    0.844
+      f79v            B      A    0.999
+      f81r            B      A    1.000
+      f84r            B      A    0.998
+      f84v            B      A    1.000
+      f87r            A      B    0.981
+      f87v            A      B    0.927
+      f89v            A      B    0.992
+      f90r            A      B    0.588
+      f90v            A      B    0.973
+      f94v            B      A    0.923
+      f96v            A      B    0.977
+      f99r            A      B    0.507
+      f100v           A      B    0.861
+      f116v           B      A    0.804
+
+  2c. Ratio prediction (does A/B label predict character ratios?):
+    MSE (A/B model): 0.01531
+    MSE (null/mean): 0.02166
+    R²:              0.293
+    N predictions:   12330
+
+  2d. Permutation baseline for CV accuracy:
+    Permutation CV: 100/500    Permutation CV: 200/500    Permutation CV: 300/500    Permutation CV: 400/500    Permutation CV: 500/500    Permutation CV: 500/500    
+    Observed CV acc: 88.6%
+    Null mean:       54.0%
+    Null std:        3.7%
+    Null 95th:       60.0%
+    Null max:        63.2%
+    p-value:         0.0000
+    (p < 2.0e-03)
+
+
+============================================================================
+  SYNTHESIS
+============================================================================
+  
+  GENERATIVE MODEL (Beta-Binomial Mixture):  
+    k=2 ARI with Currier:  0.383  
+    Best k by BIC:         2  
+    Confident assignments: 113/185  
+  
+  PREDICTIVE VALIDATION:  
+    CV accuracy:           89.2% (p=0.0000)  
+    CV ARI:                0.612  
+    Spatial forward acc:   79.6%  
+    Spatial backward acc:  41.3%  
+    Ratio R²:              0.293  
