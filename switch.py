@@ -22,7 +22,8 @@ def parse_ivtff(filename):
                 continue  
             fid_raw = m.group(1)  
             fid = re.match(r'(f\d+[rv])', fid_raw).group(1)  
-            text = re.sub(r'<[^>]*>', '', line)  
+            text = re.sub(r'<->', '.', line)
+            text = re.sub(r'<[^>]*>', '', text)  
             text = re.sub(r'\{[^}]*\}', '', text)  
             text = re.sub(r'@\d+;?', '', text)  
             text = re.sub(r'[!%*]', '', text)  
